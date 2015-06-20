@@ -11,7 +11,7 @@
     "static",
     "site",
     "generator",
-    "shopify",
+    "shopify"
   ],
   "author": "Arden de Raaij <mail@arden.nl>",
   "license": "MIT",
