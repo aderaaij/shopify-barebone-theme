@@ -19,6 +19,8 @@ The Shopify Barebone Theme is a custom, Node based, developers workflow / starti
   * Cleans build folder if exists
   * Builds templates, scripts, styles and distribute to appropiate folder in build
   * copies images and config files to build folder
-  * Runs `shopifywatch` to upload all your files to shopify
+* Run `gulp watch` to compile templates on changes and upload them directly to your shopify theme
 
+## Credits
 
+* The theme is heavily based on the [Shopify skeleton theme](https://github.com/Shopify/skeleton-theme)
