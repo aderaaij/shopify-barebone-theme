@@ -1,6 +1,6 @@
 /node_modules
 /bower_components
 /app/build
-/gulfile.js/tasks/shopifywatch.js
+/gulpfile.js/tasks/shopifywatch.js
 .sass-cache
 .DS_Store
