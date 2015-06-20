@@ -23,7 +23,7 @@ The Shopify Barebone Theme is a custom, Node based, developers workflow / starti
 
 ## Build file/folder structure
 
-When you build the app by running `gulp` it will distribute your files to the following Shopify compatible file/folder structure
+When you build the app by running `gulp` it will distribute your files into the build folder with the following Shopify compatible file/folder structure:
 
 ```
 .
