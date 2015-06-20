@@ -12,8 +12,13 @@ The Shopify Barebone Theme is a custom, Node based, developers workflow / starti
 
 ## Installation
 
-* Copy the repo into a local folder and run `npm install` to install the required node modules.
+* Copy the repo into a local folder and run `npm install`
 * Configure the shopify upload plugin by renaming the `/gulpfile.js/tasks/shopifywatch-sample.js` to `/gulpfile.js/tasks/shopifywatch.js` and fill in your shopify private app credentials which you can find on [https://myshop.myshopify.com/admin/apps](https://myshop.myshopify.com/admin/apps)
-* For your initial build, run the `gulp init` task.
+* For initial build and upload Run default `gulp` task. This will fire the following things
+  * Check if Bower dependencies are installed and if not, installs them
+  * Cleans build folder if exists
+  * Builds templates, scripts, styles and distribute to appropiate folder in build
+  * copies images and config files to build folder
+  * Runs `shopifywatch` to upload all your files to shopify
 
 
