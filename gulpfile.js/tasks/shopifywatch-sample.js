@@ -2,7 +2,7 @@ var
     gulp                = require('gulp'),
     plugins             = require('gulp-load-plugins')(),
     config              = require('../config').shopifywatch,
-    options             = {"basePath": config.build};
+    options             = { "basePath": config.build };
 
 // Shopifywatch
 // https://www.npmjs.com/package/gulp-shopify-upload
