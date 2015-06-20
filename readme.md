@@ -21,6 +21,39 @@ The Shopify Barebone Theme is a custom, Node based, developers workflow / starti
   * copies images and config files to build folder
 * Run `gulp watch` to compile templates on changes and upload them directly to your shopify theme
 
+```
+.
+├── assets
+│   ├── screen.css.liquid
+│   └── script.min.js
+├── config
+│   ├── settings.html
+│   └── settings_data.json
+├── layout
+│   └── theme.liquid
+├── snippets
+│   ├── article-grid-item.liquid
+│   ├── collection-grid-item.liquid
+│   ├── collection-listing.liquid
+│   ├── open-graph-tags.liquid
+│   ├── product-grid-item.liquid
+│   ├── site-nav.liquid
+│   ├── social-links.liquid
+│   └── twitter-card.liquid
+└── templates
+    ├── 404.liquid
+    ├── article.liquid
+    ├── blog.grid.liquid
+    ├── blog.liquid
+    ├── cart.liquid
+    ├── collection.liquid
+    ├── index.liquid
+    ├── list-collections.liquid
+    ├── page.liquid
+    ├── product.liquid
+    └── search.liquid
+```
+
 ## Credits
 
 * The theme is heavily based on the [Shopify skeleton theme](https://github.com/Shopify/skeleton-theme)
