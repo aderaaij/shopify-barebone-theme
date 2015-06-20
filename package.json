@@ -1,7 +1,7 @@
 {
-  "name": "shopify-jade-theme",
+  "name": "shopify-barebone-theme",
   "version": "0.1.0",
-  "description": "A gulp / jade based scaffolding for custom shopify themes",
+  "description": "A barebone Shopify theme making use of Gulp, Sass and Jade",
   "repository": {
     "type": "git",
     "url": "https://github.com/aderaaij/totallystatical"
