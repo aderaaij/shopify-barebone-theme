@@ -4,20 +4,21 @@
   "description": "A barebone Shopify theme making use of Gulp, Sass and Jade",
   "repository": {
     "type": "git",
-    "url": "https://github.com/aderaaij/totallystatical"
+    "url": "https://github.com/aderaaij/shopify-barebone-theme"
   },
   "keywords": [
     "gulp",
     "static",
     "site",
-    "generator"
+    "generator",
+    "shopify",
   ],
   "author": "Arden de Raaij <mail@arden.nl>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/aderaaij/totallystatical/issues"
+    "url": "https://github.com/aderaaij/shopify-barebone-theme/issues"
   },
-  "homepage": "https://github.com/aderaaij/totallystatical",
+  "homepage": "https://github.com/aderaaij/shopify-barebone-theme",
   "dependencies": {
     "gulp": "^3.8.11"
   },
