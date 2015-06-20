@@ -9,3 +9,7 @@ The Shopify Barebone Theme is a custom, Node based, developers workflow / starti
 * [Susy grid system](http://susy.oddbird.net/)
 * [Breakpoint Sass](http://breakpoint-sass.com/)
 * [SCSS Normalize](https://github.com/appleboy/normalize.scss)
+
+## Installation
+
+Copy the repo into a local folder and run `npm install`
