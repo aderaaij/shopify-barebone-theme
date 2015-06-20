@@ -1,0 +1,18 @@
+| {% unless settings.homepage_page == blank or pages[settings.homepage_page].empty? %}
+| {% assign page = pages[settings.homepage_page] %}
+div
+  | {{ page.content }}
+| {% endunless %}
+
+| {% unless settings.homepage_collection == blank or collections[settings.homepage_collection].empty? %}
+| {% assign collection = collections[settings.homepage_collection] %}
+ul
+  | {% for product in collection.products %}
+  | {% include 'product-grid-item' with 'three-per-row' %}
+  | {% else %}
+  li
+    p
+      | You have no products in your {{ collections[settings.homepage_collection].title }} collection.
+      a(href='http://www.shopify.com/admin/collections') Add some
+  | {% endfor %}
+| {% endunless %}

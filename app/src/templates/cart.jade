@@ -1,0 +1,95 @@
+h1 Shopping cart
+
+| {% if cart.item_count > 0 %}
+
+form(action='/cart', method='post')
+	table
+		thead
+			tr
+				th Item
+				th &nbsp;
+				th Price
+				th Quantity
+				th Total
+				th &nbsp;
+		tbody
+
+			| {% for item in cart.items %}
+
+			| 	{% assign collection_url = item.product.collections.last.url %}
+			| 	{% if collection_url == '/collections/frontpage' or collection_url == blank %}
+			|		{% assign collection_url = '/collections/all' %}
+			| 	{% endif %}
+
+			| 	{% if forloop.first %}
+			|		{% assign continue_shopping_url = collection_url %}
+			|	{% endif %}
+
+			tr
+				td
+					a(href="{{ collection_url }}{{ item.url }}")
+						img(src="{{ item | img_url: 'compact' }}",  alt="{{ item.title | escape }}")
+					h2
+						a(href="{{ collection_url }}{{ item.url }}")
+							| {{ item.title }}
+
+
+					| {% assign properties_amount = item.properties | size %}
+					| {% if properties_amount > 0 %}
+					p
+						| {% for p in item.properties %}
+						|	{% unless p.last == blank %}
+						|		{{ p.first }}:
+						|		{% if p.last contains '/uploads/' %}
+						a(href="{{ p.last }}")
+							| {{ p.last | split: '/' | last }}
+						|		{% else %}
+						|		{{ p.last }}
+						|		{% endif %}
+						br
+						|	{% endunless %}
+						| {% endfor %}
+
+					| {% endif %}
+					h3
+						| {{ item.vendor }}
+
+				td
+					| {{ item.price | money }}
+
+
+				td
+					input(type="number", name="updates[]", id="updates_{{ item.id }}", class="quantity", value="{{ item.quantity }}")
+				td
+					| {{ item.line_price | money }}
+				td
+					a(href="/cart/change?line={{ forloop.index }}&quantity=0").
+						Remove
+
+
+		| {% endfor %}
+
+		div
+			h3.
+				Subtotal <em> {{ cart.total_price | money }}
+		a(href="{{ continue_shopping_url }}") Continue shopping
+		span or
+		input(type="submit", name="checkout", value="Check out")
+
+		| {% if additional_checkout_buttons %}
+		p
+			| {{ content_for_additional_checkout_buttons }}
+		| {% endif %}
+
+	div
+		p Special instructions for seller
+		textarea(name="note")
+			| {{ cart.note }}
+
+| {% else %}
+
+div
+	h2 It appears that your cart is currently empty!
+	h3 You can continue browsing <a href="/collections/all">here</a>.
+
+| {% endif %}

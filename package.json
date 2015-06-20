@@ -1,7 +1,7 @@
 {
-  "name": "totallystatical",
+  "name": "shopify-jade-theme",
   "version": "0.1.0",
-  "description": "A static site generator based on Gulp",
+  "description": "A gulp / jade based scaffolding for custom shopify themes",
   "repository": {
     "type": "git",
     "url": "https://github.com/aderaaij/totallystatical"
@@ -46,6 +46,9 @@
     "gulp-if": "^1.2.5",
     "gulp-filter": "^2.0.2",
     "gulp-changed": "^1.2.1",
-    "gulp-connect": "^2.2.0"
+    "gulp-connect": "^2.2.0",
+    "gulp-shopify-upload": "^1.0.12",
+    "gulp-watch": "^4.2.4",
+    "require-dir": "^0.3.0"
   }
 }

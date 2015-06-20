@@ -1,0 +1,80 @@
+| {% paginate blog.articles by 5 %}
+
+| {% if current_tags %}
+h1
+	| {{ blog.title | link_to: blog.url }}
+	span &raquo;
+	| {{ current_tags.first }}
+| {% else %}
+h1
+	| {{ blog.title }}
+| {% endif %}
+
+.articles
+
+	| {% for article in blog.articles %}
+
+	| {% assign article_has_image = false %}
+	| {% assign img_tag = '<' | append: 'img' %}
+	| {% if article.excerpt_or_content contains img_tag %}
+	|	{% assign src = article.excerpt_or_content | split: 'src="' %}
+	|	{% assign src = src[1] | split: '"' | first %}
+	|	{% if src %}
+	|		{% assign article_has_image = true %}
+	|		{% assign image_src = src | replace: '_small', '' | replace: '_compact', '' | replace: '_medium', '' | replace: '_large', '' | replace: '_grande', '' %}
+	|	{% endif %}
+	| {% endif %}
+
+	article(class="article{% if forloop.first %} first{% endif %}{% if forloop.last %} last{% endif %} clear")
+		h2
+			a(href='{{ article.url }}')
+				| {{ article.title }}
+
+		h3
+			time(pubdate, datetime="{{ article.published_at | date: '%Y-%m-%d' }}")
+				| {{ article.published_at | date: '%b %d, %Y' }}
+
+		div
+			| {% if article_has_image %}
+			a(href='{{ article.url }}')
+				span(class="square-holder" style="background-image: url({{ image_src }})")
+			| {% else %}
+
+			| {% endif %}
+			| {% if article.excerpt.size > 0 %}
+			|	{{ article.excerpt }}
+			|		{% else %}
+			p
+				| {{ article.content | strip_html | truncatewords: 120 }}</p>
+			| {% endif %}
+			a(href='{{ article.url }}') Read More
+
+
+		div
+			| {% if blog.comments_enabled? and article.comments_count > 0 %}
+			span
+				a(href='{{ article.url }}#comments')
+					i.fa.fa-comment
+					| {{ article.comments_count }} {{ article.comments_count | pluralize: 'comment','comments' }}
+			| {% endif %}
+			| {% if article.tags.size > 0 %}
+			span
+				| {% for tag in article.tags %}
+				a(href="{{ blog.url }}/tagged/{{ tag | handle }}")
+					| {% if forloop.first %}
+					i.fa.fa-tag
+					| {% endif %}
+					| {{ tag }}
+					| {% unless forloop.last %}, {% endunless %}
+				| {% endfor %}
+			| {% endif %}
+
+| {% endfor %}
+
+
+| {% if paginate.pages > 1 %}
+.pagination
+	| {{ paginate | default_pagination | replace: 'Previous', 'Newer articles' | replace: 'Next', 'Older articles' }}
+| {% endif %}
+
+| {% endpaginate %}

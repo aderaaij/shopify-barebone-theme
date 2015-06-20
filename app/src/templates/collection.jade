@@ -1,0 +1,66 @@
+| {% assign products_per_page = settings.products_per_row | times: settings.number_of_rows %}
+| {% assign numbers = 'zero, one, two, three, four, five, six' | split: ',' %}
+| {% assign products_per_row = settings.products_per_row | times: 1 %}
+| {% assign products_per_row = numbers[products_per_row] | strip | append: '-per-row' %}
+
+| {% paginate collection.products by products_per_page %}
+
+h1
+	| {{ collection.title }}
+
+| {% if collection.products_count > 1 %}
+select.sort-by.right
+	option(value='manual') Featured
+	option(value='price-ascending') Price: Low to High
+	option(value='price-descending') Price: Hight to Low
+	option(value='title-ascending') A-Z
+	option(value='title-descending') Z-A
+	option(value='created-ascending') Oldest to Newest
+	option(value='created-descending') Newest to Oldest
+	option(value='best-selling') Best Selling
+| {% endif %}
+
+| {% if collection.all_tags.size > 0 %}
+ul
+	li(class='{% unless current_tags %} active{% endunless %}')
+		| {{ 'All' | link_to_remove_tag: current_tags.first }}
+
+	| {% for tag in collection.all_tags %}
+	| {% if current_tags contains tag %}
+	li
+		| {{ tag | link_to_remove_tag: tag }}
+	| {% else %}
+	li
+		| {{ tag | link_to_tag: tag }}
+
+	| {% endif %}
+	| {% endfor %}
+| {% endif %}
+
+| {% if collection.description.size > 0 %}
+div
+	| {{ collection.description }}
+| {% endif %}
+
+ul
+	| {% for product in collection.products %}
+	| 	{% include 'product-grid-item' with products_per_row %}
+	| {% else %}
+	p There are no products in this view.
+	| {% endfor %}
+
+| {% if paginate.pages > 1 %}
+div
+	| {{ paginate | default_pagination }}
+| {% endif %}
+
+| {% endpaginate %}
+
+
+script.
+	jQuery('.sort-by')
+		.val('{{ collection.sort_by | default: collection.default_sort_by }}')
+		.on('change', function() {
+			Shopify.queryParams.sort_by = jQuery(this).val();
+			location.search = jQuery.param(Shopify.queryParams).replace(/\+/g, '%20');
+		});

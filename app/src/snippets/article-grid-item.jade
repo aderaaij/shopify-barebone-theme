@@ -1,0 +1,55 @@
+| {% comment %}If no value is passed to the snippet, we will set the snippet variable to a sensible default.{% endcomment %}
+| {% if article-grid-item == '' %}{% assign article-grid-item = 'three-per-row' %}{% endif %}
+
+| {% assign article_has_image = false %}
+| {% assign img_tag = '<' | append: 'img' %}
+| {% if article.excerpt_or_content contains img_tag %}
+|	{% assign src = article.excerpt_or_content | split: 'src="' %}
+|	{% assign src = src[1] | split: '"' | first %}
+|	{% if src %}
+|		{% assign article_has_image = true %}
+|		{% assign image_src = src | replace: '_small', '' | replace: '_compact', '' | replace: '_medium', '' | replace: '_large', '' | replace: '_grande', '' %}
+|	{% endif %}
+| {% endif %}
+
+li(class="{{ article-grid-item }}")
+
+	| {% if article.tags.size > 0 %}
+	h4
+		a(href="/blogs/{{ blog.handle }}/tagged/{{ tag | handle }}")
+			| {{ article.tags.first }}
+	| {% endif %}
+
+	| {% if article_has_image %}
+	div
+		a(href="{{ article.url }}")
+			img(src="{{ image_src }}", alt="{{ article.title | escape }}")
+	| {% endif %}
+
+	div
+		h3
+			a(href="{{ article.url }}")
+				| {{ article.title }}
+		p
+			| {% if article.excerpt.size > 0 %}
+			| {{ article.excerpt | strip_html }}
+			| {% else %}
+			| {{ article.content | strip_html | truncatewords: 50 }}
+			| {% endif %}
+	p
+		time(pubdate, datetime="{{ article.published_at | date: '%Y-%m-%d' }}")
+			| {{ article.published_at | date: '%b %d, %Y' }}
+	p
+		a(href="{{ article.url }}") Read more &#8594;
+
+| {% if article-grid-item == 'six-per-row' %}
+| 	{% cycle 'clear': '', '', '', '', '', '<div style="clear:both"></div>' %}
+| {% elsif article-grid-item == 'five-per-row' %}
+| 	{% cycle 'clear': '', '', '', '', '<div style="clear:both"></div>' %}
+| {% elsif article-grid-item == 'four-per-row' %}
+| 	{% cycle 'clear': '', '', '', '<div style="clear:both"></div>' %}
+| {% elsif article-grid-item == 'three-per-row' %}
+| 	{% cycle 'clear': '', '', '<div style="clear:both"></div>' %}
+| {% elsif article-grid-item == 'two-per-row' %}
+| 	{% cycle 'clear': '', '<div style="clear:both"></div>' %}
+| {% endif %}

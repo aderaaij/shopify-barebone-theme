@@ -1,0 +1,88 @@
+doctype html
+html(lang="en")
+	head
+		meta(charset="utf-8")
+		title {{ page_title }}{% if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif %}{% if current_page != 1 %} &ndash; Page {{ current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
+
+		meta(name="description", content="{{ page_description | escape }}")
+		link(rel="canonical", href="{{ canonical_url }}")
+		meta(name="viewport", content="width=device-width, initial-scale=1")
+
+		| {% include 'open-graph-tags' %}
+		| {% include 'twitter-card' %}
+		| {{ content_for_header }}
+
+		| {{ 'screen.css' | asset_url | stylesheet_tag }}
+		| {{ '//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css' | stylesheet_tag }}
+		| {{ '//fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,400italic,600italic,700italic' | stylesheet_tag }}
+
+		<!--[if lt IE 9]>
+		| {{ '//html5shiv.googlecode.com/svn/trunk/html5.js' | script_tag }}
+		<![endif]-->
+
+		| {{ '//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js' | script_tag }}
+		script.
+			jQuery('html').removeClass('no-js').addClass('js');
+
+	body(id="{{ page_title | handle }}" class="{% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}")
+
+		| {% include 'social-links' %}
+
+		a(href="/cart")
+			//- img(src="{{ 'cart.svg' | asset_url }}")
+			| {{ cart.item_count }} {{ cart.item_count | pluralize: 'item', 'items' }} ({{ cart.total_price | money }})
+			| cart
+
+		| {% if shop.customer_accounts_enabled %}
+
+		| 	{% if customer %}
+		| 		Logged in as <a href="/account">{{ customer.first_name }}</a> · {{ 'Log out' | customer_logout_link }}
+		| 	{% else %}
+		| 		{{ 'Log in' | customer_login_link }}
+		| 	{% if shop.customer_accounts_optional %}
+		| 		or {{ 'Create an account' | customer_register_link }}
+		| 	{% endif %}
+		| {% endif %}
+
+		| {% endif %}
+
+		| {% if settings.use_logo %}
+
+		a(href='/')
+			| {{ 'logo.png' | asset_url | img_tag: shop.name }}
+		| {% else %}
+		a#site-title(href='')
+			|	{{ shop.name }}
+		| {% endif %}
+		| {% if template == 'index' %}
+		| {{ shop.name }}
+		| {% endif %}
+
+		| {% include 'site-nav' %}
+
+		form(action="/search", method="get", class="search-form right", role="search")
+			input(name="q", type="search", id="search-field", placeholder="Search store...", value="{{ search.terms | escape }}")
+			input(type="submit", id="search-submit", value="Search")
+
+	#main.site-content(role="main")
+		| {{ content_for_layout }}
+
+
+	footer.site-footer
+		| {% if linklists.footer.links.size > 0 %}
+		| 	{% for link in linklists.footer.links %}
+		| 		<a href="{{ link.url }}" title="{{ link.title }}"{% if link.active %} class="active"{% endif %}>{{ link.title }}</a>
+		| 	{% endfor %}
+		| {% endif %}
+
+		| {% unless shop.enabled_payment_types == empty %}
+
+		| 	{% for type in shop.enabled_payment_types %}
+		img(width="40", src="{{ type | payment_type_img_url }}")
+		| 	{% endfor %}
+		| {% endunless %}
+		p.
+			Copyright &copy; {{ "now" | date: "%Y" }} {{ shop.name }}. {{ powered_by_link }}
+
+	| {{ 'script.min.js'  | asset_url | script_tag }}
+

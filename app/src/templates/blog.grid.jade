@@ -1,0 +1,29 @@
+| {% assign products_per_page = settings.products_per_row | times: settings.number_of_rows %}
+| {% assign numbers = 'one, two, three, four, five, six' | split: ',' %}
+| {% assign products_per_row = settings.products_per_row | minus: 1 %}
+| {% assign products_per_row = numbers[products_per_row] | strip | append: '-per-row' %}
+
+| {% paginate blog.articles by products_per_page %}
+
+| {% if current_tags %}
+h1
+		| {{ blog.title | link_to: blog.url }}
+		span &raquo;
+		| {{ current_tags.first }}
+| {% else %}
+h1
+		| {{ blog.title }}
+
+| {% endif %}
+
+ul
+	| {% for article in blog.articles %}
+	|	{% include 'article-grid-item' with products_per_row %}
+	| {% endfor %}
+
+| {% if paginate.pages > 1 %}
+.default_pagination
+	| {{ paginate | default_pagination | replace: 'Previous', 'Newer articles' | replace: 'Next', 'Older articles' }}
+| {% endif %}
+
+| {% endpaginate %}
