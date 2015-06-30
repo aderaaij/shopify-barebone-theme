@@ -7,6 +7,7 @@ gulp.task('copy', function() {
 
   // fonts and font icons
   gulp.src(config.font_src)
+  .pipe(plugins.flatten())
   .pipe(gulp.dest(config.font_build));
 
   // Shopify config files
