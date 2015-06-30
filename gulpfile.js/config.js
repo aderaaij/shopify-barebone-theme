@@ -55,7 +55,7 @@ module.exports = {
 
   copy: {
     font_src: src_path+'assets/fonts/**/*',
-    font_build: build_path+'assets/fonts',
+    font_build: build_path+'assets/',
     config_src: src_path+'config/**/*',
     config_build: build_path+'config'
   },
