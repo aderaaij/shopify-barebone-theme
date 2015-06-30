@@ -1,0 +1,27 @@
+
+{% assign products_per_page = settings.products_per_row | times: settings.number_of_rows %}
+{% assign numbers = 'one, two, three, four, five, six' | split: ',' %}
+{% assign products_per_row = settings.products_per_row | minus: 1 %}
+{% assign products_per_row = numbers[products_per_row] | strip | append: '-per-row' %}
+{% assign using_link_list = false %}
+{% if collection-listing != '' and linklists[collection-listing].handle == collection-listing and linklists[collection-listing].links.size > 0 %}
+	{% assign using_link_list = true %}
+{% endif %}
+<h1>{% if using_link_list %}{{ linklists[collection-listing].title }}{% else %}Collections{% endif %}</h1>{% if using_link_list %}
+<ul>
+  {% for link in linklists[collection-listing].links %}
+  	{% if link.type == 'collection_link' %}
+  	{% assign collection = link.object %}
+  	{% include 'collection-grid-item' with products_per_row %}
+  	{% endif %}
+  {% endfor %}
+</ul>{% else %}
+{% paginate collections by products_per_page %}
+<ul>
+  {% for collection in collections %}
+  	{% include 'collection-grid-item' with products_per_row %}
+  {% endfor %}
+</ul>{% if paginate.pages > 1 %}
+<div>{{ paginate | default_pagination }}</div>{% endif %}
+	{% endpaginate %}
+{% endif %}

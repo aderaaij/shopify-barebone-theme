@@ -1,0 +1,64 @@
+
+<h1>Shopping cart</h1>{% if cart.item_count > 0 %}
+<form action="/cart" method="post">
+  <table>
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>&nbsp;</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Total</th>
+        <th>&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in cart.items %}
+      	{% assign collection_url = item.product.collections.last.url %}
+      	{% if collection_url == '/collections/frontpage' or collection_url == blank %}
+      		{% assign collection_url = '/collections/all' %}
+      	{% endif %}
+      	{% if forloop.first %}
+      		{% assign continue_shopping_url = collection_url %}
+      	{% endif %}
+      <tr>
+        <td><a href="{{ collection_url }}{{ item.url }}"><img src="{{ item | img_url: 'compact' }}" alt="{{ item.title | escape }}"/></a>
+          <h2><a href="{{ collection_url }}{{ item.url }}">{{ item.title }}</a></h2>{% assign properties_amount = item.properties | size %}
+          {% if properties_amount > 0 %}
+          <p>
+            {% for p in item.properties %}
+            	{% unless p.last == blank %}
+            		{{ p.first }}:
+            		{% if p.last contains '/uploads/' %}<a href="{{ p.last }}">{{ p.last | split: '/' | last }}</a>		{% else %}
+            		{{ p.last }}
+            		{% endif %}<br/>	{% endunless %}
+            {% endfor %}
+          </p>{% endif %}
+          <h3>{{ item.vendor }}</h3>
+        </td>
+        <td>{{ item.price | money }}</td>
+        <td>
+          <input type="number" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" class="quantity"/>
+        </td>
+        <td>{{ item.line_price | money }}</td>
+        <td><a href="/cart/change?line={{ forloop.index }}&amp;quantity=0">
+            Remove
+            
+            </a></td>
+      </tr>
+    </tbody>{% endfor %}
+    <div>
+      <h3>Subtotal <em> {{ cart.total_price | money }}</h3>
+    </div><a href="{{ continue_shopping_url }}">Continue shopping</a><span>or</span>
+    <input type="submit" name="checkout" value="Check out"/>{% if additional_checkout_buttons %}
+    <p>{{ content_for_additional_checkout_buttons }}</p>{% endif %}
+  </table>
+  <div>
+    <p>Special instructions for seller</p>
+    <textarea name="note">{{ cart.note }}</textarea>
+  </div>
+</form>{% else %}
+<div>
+  <h2>It appears that your cart is currently empty!</h2>
+  <h3>You can continue browsing <a href="/collections/all">here</a>.</h3>
+</div>{% endif %}

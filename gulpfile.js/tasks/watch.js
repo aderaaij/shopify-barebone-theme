@@ -2,13 +2,13 @@ var
   gulp                = require('gulp'),
   config              = require('../config').watch;
 // Watch
-gulp.task('watch', ['setwatch', 'templates'], function() {
+gulp.task('watch', ['setwatch'], function() {
 
   // Watch .scss files
   gulp.watch(config.source.styles, ['styles']);
 
   // Watch .jade files
-  gulp.watch(config.source.templates, ['templates']);
+  // gulp.watch(config.source.templates, ['templates']);
 
   // Watch image folder
   gulp.watch(config.source.images, ['images']);

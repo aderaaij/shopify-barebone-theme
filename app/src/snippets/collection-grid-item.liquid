@@ -1,0 +1,16 @@
+{% if collection-grid-item == '' %}{% assign collection-grid-item = 'three-per-row' %}{% endif %}
+<li class="{{ collection-grid-item }}">
+  <div><a href="{{ collection.url }}">{% if collection.image %}<img src="{{ collection | img_url: 'grande' }}" alt="{{ collection.image.alt | escape }}"/>{% else %}<img src="{{ collection.products.first | img_url: 'grande' }}" alt="{{ collection.title | escape }}"/>{% endif %}</a></div>
+  <div><a href="{{ collection.url }}">{{ collection.title }}</a><span>{{ collection.all_products_count }} {{ collection.all_products_count | pluralize:'item','items' }}</span></div>
+</li>
+{% if collection-grid-item == 'six-per-row' %}
+{% cycle 'clear': '', '', '', '', '', '<div style="clear:both"></div>' %}
+{% elsif collection-grid-item == 'five-per-row' %}
+{% cycle 'clear': '', '', '', '', '<div style="clear:both"></div>' %}
+{% elsif collection-grid-item == 'four-per-row' %}
+{% cycle 'clear': '', '', '', '<div style="clear:both"></div>' %}
+{% elsif collection-grid-item == 'three-per-row' %}
+{% cycle 'clear': '', '', '<div style="clear:both"></div>' %}
+{% elsif collection-grid-item == 'two-per-row' %}
+{% cycle 'clear': '', '<div style="clear:both"></div>' %}
+{% endif %}

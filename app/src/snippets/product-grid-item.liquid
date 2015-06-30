@@ -1,0 +1,24 @@
+{% if product-grid-item == '' %}{% assign product-grid-item = 'three-per-row' %}{% endif %}{% assign on_sale = false %}
+{% if product.compare_at_price > product.price %}
+	{% assign on_sale = true %}
+{% endif %}
+<li class="{{ product-grid-item }}{% unless product.available %} sold-out{% endunless %}{% if on_sale %} on-sale{% endif %}{% if product-grid-item == 'four-per-row' %}{% cycle 'last': '', '', '', ' last-in-row' %}{% elsif product-grid-item == 'three-per-row' %}{% cycle 'last': '', '', ' last-in-row' %}{% endif %} centered">
+  <div><a href="{{ product.url | within: collection }}"><img src="{{ product | img_url: 'grande' }}" alt="{{ product.featured_image.alt | escape }}"/></a></div>
+  <div><a href="{{ product.url | within: collection }}">{{ product.title }}</a><span>
+      {% if product.price_varies %}From{% endif %}
+      {{ product.price | money }}
+      {% if on_sale %}
+      <s>{{ product.compare_at_price | money }}</s>{% endif %}</span><span data-id="{{ product.id }}"></span>
+  </div>
+</li>
+{% if product-grid-item == 'six-per-row' %}
+{% cycle 'clear': '', '', '', '', '', '<div style="clear:both"></div>' %}
+{% elsif product-grid-item == 'five-per-row' %}
+{% cycle 'clear': '', '', '', '', '<div style="clear:both"></div>' %}
+{% elsif product-grid-item == 'four-per-row' %}
+{% cycle 'clear': '', '', '', '<div style="clear:both"></div>' %}
+{% elsif product-grid-item == 'three-per-row' %}
+{% cycle 'clear': '', '', '<div style="clear:both"></div>' %}
+{% elsif product-grid-item == 'two-per-row' %}
+{% cycle 'clear': '', '<div style="clear:both"></div>' %}
+{% endif %}
