@@ -14,6 +14,9 @@ gulp.task('images', function() {
       interlaced: true
     })))
 
+    // Flatten directory
+    .pipe(plugins.flatten())
+
     // Distribute to build path
     .pipe(gulp.dest(config.build))
 
